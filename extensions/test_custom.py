@@ -5,8 +5,10 @@ import ctc_custom
 def ctc_loss(input, target, input_lengths, target_lengths, blank, reduction='none', zero_infinity=False, get_alpha=False):
     assert reduction == 'none'
     if not get_alpha:
+        # loss: (batch, )
         return torch.nn.functional.ctc_loss(input, target, input_lengths, target_lengths, blank, reduction, zero_infinity)
     else:
+        # loss:(batch,), alpha :(batch, input_lengths.max(), 2*target_legnths.max()+1 )
         return ctc_custom.ctc_loss_alpha(input, target, input_lengths, target_lengths, blank, zero_infinity)
 
 T = 50
